@@ -1,6 +1,7 @@
 """Programa para cadastro de pessoas. Uso didático na disciplina de GQS."""
 
 from cadastro import CadastroPessoas
+from repositorio_pessoas_mysql import RepositorioPessoasMySQL
 
 
 def exibir_menu():
@@ -143,7 +144,10 @@ def analisar_pessoa(cadastro):
 
 def executar():
     """Executa o menu principal da aplicação."""
-    cadastro = CadastroPessoas()
+    
+    repositorio = RepositorioPessoasMySQL()
+    cadastro = CadastroPessoas(repositorio)
+    
     op = 0
 
     while op != 6:
