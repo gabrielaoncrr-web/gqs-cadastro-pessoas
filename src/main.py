@@ -1,6 +1,7 @@
 """Programa para cadastro de pessoas. Uso didático na disciplina de GQS."""
 
 from cadastro import CadastroPessoas
+from repositorio_pessoas_mysql import RepositorioPessoasMySQL
 
 
 def exibir_menu():
@@ -13,7 +14,8 @@ def exibir_menu():
     print("3 - Alterar pessoa")
     print("4 - Listar pessoas")
     print("5 - Avaliar cadastro")
-    print("6 - Sair")
+    print("6 - Remover pessoa")
+    print("7 - Sair")
     return int(input("Escolha uma opcao: "))
 
 
@@ -91,6 +93,15 @@ def listar_pessoas(cadastro):
     print("Total: " + str(len(pessoas)))
 
 
+def remover_pessoa(cadastro):
+    """Remove uma pessoa pelo nome."""
+    nome = input("Nome para remover: ")
+    if cadastro.remover(nome):
+        print("Pessoa removida com sucesso!")
+    else:
+        print("Pessoa não encontrada.")
+
+
 def analisar_faixa_etaria(idade):
     """Analisa a faixa etaria."""
     if idade < 12:
@@ -143,10 +154,12 @@ def analisar_pessoa(cadastro):
 
 def executar():
     """Executa o menu principal da aplicação."""
-    cadastro = CadastroPessoas()
+    repositorio = RepositorioPessoasMySQL()
+    cadastro = CadastroPessoas(repositorio)
+    
     op = 0
 
-    while op != 6:
+    while op != 7:  # MUDOU AQUI (era 6, agora é 7)
         op = exibir_menu()
 
         if op == 1:
@@ -160,6 +173,8 @@ def executar():
         elif op == 5:
             analisar_pessoa(cadastro)
         elif op == 6:
+            remover_pessoa(cadastro)  # NOVO AQUI
+        elif op == 7:                 # MUDOU AQUI (era 6, agora é 7)
             print("Saindo...")
         else:
             print("Opcao invalida")
